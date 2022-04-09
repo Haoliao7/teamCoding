@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private BoxCollider2D coll;
+    private CircleCollider2D coll;
     private SpriteRenderer sprite;
     private Animator anim;
 
@@ -26,9 +26,10 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
+        coll = GetComponent<CircleCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        dirX = 1; //left: -1, right: +1
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Debug.Log("Hello, world!");
 
-        dirX = Input.GetAxisRaw("Horizontal"); //left: -1, right: +1
+        
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
 
@@ -89,4 +90,14 @@ public class PlayerMovement : MonoBehaviour
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround); //create box around player, offset downwards, check for overlap with jumpableGround
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Wall")
+        {
+            Debug.Log("kpf");
+            dirX *= -1;
+        }
+    }
+
 }
