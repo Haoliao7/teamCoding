@@ -14,11 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
     private float dirX = 0f;
 
-    [SerializeField]
-    private float moveSpeed = 7f;
+    
+    public float moveSpeed = 7f;
 
-    [SerializeField]
-    private float jumpForce = 14f;
+    public float jumpForce = 14f;
 
     private enum MovementState { idle, running, jump, fall } //finite value set
 
@@ -41,7 +40,9 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
 
-        if (Input.GetButtonDown("Jump") && IsGrounded()) //GBD vs GKD, uses input system
+
+
+        if ( IsGrounded()) //GBD vs GKD, uses input system
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce); //call rigidbody + add speed
         }
@@ -49,10 +50,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimationState(); //call method
     }
 
-    public void Damage()
-    {
-        //add fall dmg
-    }
+    
 
     private void UpdateAnimationState() //no results returned, exclusive execution
     {
@@ -95,8 +93,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(collision.gameObject.tag == "Wall")
         {
-            Debug.Log("kpf");
-            dirX *= -1;
+            dirX *= -1; //switch its direction
         }
     }
 
