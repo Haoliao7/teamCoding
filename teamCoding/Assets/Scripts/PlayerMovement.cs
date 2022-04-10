@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
 
+    bool isGrounded;
+
     [SerializeField]
     private LayerMask jumpableGround;
 
@@ -42,9 +44,10 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if ( IsGrounded()) //GBD vs GKD, uses input system
+        if (isGrounded) //GBD vs GKD, uses input system
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce); //call rigidbody + add speed
+            isGrounded = false;
         }
 
         UpdateAnimationState(); //call method
@@ -84,10 +87,10 @@ public class PlayerMovement : MonoBehaviour
         anim.SetInteger("state", (int)state); //turn enum into corresponding integer rep
     }
 
-    private bool IsGrounded() //check if player is grounded
+    /*private bool IsGrounded() //check if player is grounded
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, jumpableGround); //create box around player, offset downwards, check for overlap with jumpableGround
-    }
+    }*/
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -95,6 +98,14 @@ public class PlayerMovement : MonoBehaviour
         {
             dirX *= -1; //switch its direction
         }
+
+        if(collision.gameObject.tag == "Ground" && gameObject.transform.position.y > collision.gameObject.transform.position.y)
+        {
+            Debug.Log("1231321");
+            isGrounded = true;
+        }
+
     }
+
 
 }
