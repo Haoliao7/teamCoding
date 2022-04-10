@@ -27,6 +27,11 @@ public class PlatformController : MonoBehaviour
             gameObject.transform.position = new Vector3(9.2f, gameObject.transform.position.y, gameObject.transform.position.z);
         }
 
+        if (gameObject.transform.position.y < -5.23f) //bottom boundary
+        {
+            gameObject.transform.position = new Vector3(gameObject.transform.position.x, -5.23f, gameObject.transform.position.z);
+        }
+
         // move up
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
